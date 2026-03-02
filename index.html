@@ -253,22 +253,35 @@ function updateMetrics(){
 setInterval(updateMetrics,2000);updateMetrics();
 
 /* Pipeline Logs */
-const logs=[
-"Initializing pipeline...",
-"Fetching latest changes...",
-"Running tests... all green.",
-"Building Docker image...",
-"Pushing image to registry...",
-"Deploying to cluster...",
-"Pods warming up nicely.",
-"Health checks look good.",
-"Scaling replicas smoothly.",
-"Monitoring metrics...",
-"Automation doing its thing.",
-"Cloud resources stable.",
-"Deployment completed successfully.",
-"Prajwal reviewing logs quietly.",
-"Everything looks calm in production."
+const logs = [
+  "🚀 Initializing CI/CD pipeline...",
+  "🔍 Checking latest commit from GitHub...",
+  "📦 Cloning repository...",
+  "🧪 Running unit tests...",
+  "✅ All tests passed. Code behaving nicely.",
+  "🐳 Building Docker image...",
+  "📤 Pushing image to container registry...",
+  "☁️ Provisioning infrastructure (Terraform working quietly)...",
+  "⚙️ Applying Kubernetes manifests...",
+  "🚀 Deploying to cluster...",
+  "📡 Pods starting up...",
+  "🩺 Running health checks...",
+  "✅ Services are responding correctly.",
+  "📊 Monitoring metrics via Prometheus...",
+  "📈 Grafana dashboards updated.",
+  "🔄 Scaling replicas for high availability...",
+  "😅 CPU handling traffic like a champ.",
+  "💸 Cloud bill watching silently in the background...",
+  "🧠 Automation scripts doing smart things.",
+  "🛠 Minor config tweak applied.",
+  "🧘 System stable. No drama detected.",
+  "🎯 Zero downtime achieved.",
+  "🔐 Security checks completed successfully.",
+  "🚦 Traffic flowing smoothly.",
+  "🌍 Production environment looks healthy.",
+  "👀 Prajwal reviewing logs calmly.",
+  "✨ Deployment completed successfully.",
+  "🎉 Pipeline finished without breaking the internet."
 ];
 
 const pipelineLogs=document.getElementById("pipelineLogs");
