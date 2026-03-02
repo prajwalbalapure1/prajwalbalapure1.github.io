@@ -1,262 +1,227 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DevOps Space Journey</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name | Developer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 body {
-  margin:0;
-  overflow:hidden;
-  background:black;
-  font-family:Arial, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.6;
 }
 
-.title {
-  position:fixed;
-  top:20px;
-  width:100%;
-  text-align:center;
-  color:white;
-  font-size:22px;
-  letter-spacing:3px;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: #0b1220;
+    position: sticky;
+    top: 0;
 }
 
-#panel {
-  position:fixed;
-  right:40px;
-  top:50%;
-  transform:translateY(-50%);
-  width:340px;
-  padding:20px;
-  background:rgba(0,0,0,0.9);
-  border:1px solid #00ffff;
-  border-radius:12px;
-  color:white;
-  display:none;
+header h2 {
+    color: #22d3ee;
 }
 
-#panel h2 {
-  margin-top:0;
-  color:#00ffff;
+nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #cbd5e1;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #22d3ee;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 8%;
+    flex-wrap: wrap;
+}
+
+.hero-text {
+    max-width: 500px;
+}
+
+.hero-text h1 {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+.hero-text span {
+    color: #22d3ee;
+}
+
+.hero-text p {
+    margin-bottom: 25px;
+    color: #94a3b8;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #22d3ee;
+    color: #0f172a;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #06b6d4;
+}
+
+.hero-img img {
+    width: 280px;
+    border-radius: 20px;
+    border: 3px solid #22d3ee;
+}
+
+section {
+    padding: 80px 8%;
+}
+
+.section-title {
+    font-size: 30px;
+    margin-bottom: 40px;
+    color: #22d3ee;
+}
+
+.about {
+    max-width: 800px;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.skill-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    flex: 1 1 150px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    background: #334155;
+}
+
+.projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.project-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    flex: 1 1 250px;
+    transition: 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    background: #334155;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #0b1220;
+    color: #94a3b8;
 }
 </style>
 </head>
+
 <body>
 
-<div class="title">🚀 DevOps Space Journey</div>
-<div id="panel"></div>
+<header>
+    <h2>&lt;/&gt; YourName</h2>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+    </nav>
+</header>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://threejs.org/examples/js/loaders/FontLoader.js"></script>
-<script src="https://threejs.org/examples/js/geometries/TextGeometry.js"></script>
+<section class="hero">
+    <div class="hero-text">
+        <h1>Hi, I'm <span>Your Name</span></h1>
+        <h2>Full Stack Developer</h2>
+        <p>I build modern, responsive and scalable web applications using the latest technologies.</p>
+        <a href="#projects" class="btn">View My Work</a>
+    </div>
 
-<script>
+    <div class="hero-img">
+        <img src="https://via.placeholder.com/300" alt="profile">
+    </div>
+</section>
 
-/* =======================
-   BASIC SCENE SETUP
-======================= */
+<section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about">
+        <p>
+            I'm a passionate developer who enjoys creating clean and user-friendly websites.
+            I specialize in frontend and backend development and love solving real-world problems.
+        </p>
+    </div>
+</section>
 
-const scene = new THREE.Scene();
+<section id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills">
+        <div class="skill-card">HTML</div>
+        <div class="skill-card">CSS</div>
+        <div class="skill-card">JavaScript</div>
+        <div class="skill-card">React</div>
+        <div class="skill-card">Node.js</div>
+        <div class="skill-card">MongoDB</div>
+    </div>
+</section>
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  5000
-);
-camera.position.set(0,0,80);
+<section id="projects">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects">
+        <div class="project-card">
+            <h3>Project One</h3>
+            <p>Short description of your project.</p>
+        </div>
+        <div class="project-card">
+            <h3>Project Two</h3>
+            <p>Short description of your project.</p>
+        </div>
+        <div class="project-card">
+            <h3>Project Three</h3>
+            <p>Short description of your project.</p>
+        </div>
+    </div>
+</section>
 
-const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+<footer>
+    © 2026 Your Name | All Rights Reserved
+</footer>
 
-/* =======================
-   LIGHTING
-======================= */
-
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-
-const pointLight = new THREE.PointLight(0xffffff, 1.5);
-pointLight.position.set(50,50,50);
-scene.add(pointLight);
-
-/* =======================
-   STARFIELD
-======================= */
-
-const starGeometry = new THREE.BufferGeometry();
-const starVertices = [];
-
-for(let i=0;i<15000;i++){
-  starVertices.push(
-    THREE.MathUtils.randFloatSpread(3000),
-    THREE.MathUtils.randFloatSpread(3000),
-    THREE.MathUtils.randFloatSpread(3000)
-  );
-}
-
-starGeometry.setAttribute(
-  "position",
-  new THREE.Float32BufferAttribute(starVertices,3)
-);
-
-const starMaterial = new THREE.PointsMaterial({
-  color:0xffffff,
-  size:1.5
-});
-
-const stars = new THREE.Points(starGeometry, starMaterial);
-scene.add(stars);
-
-/* =======================
-   EARTH (START POINT)
-======================= */
-
-const earthTexture = new THREE.TextureLoader().load(
-  "https://threejs.org/examples/textures/earth_atmos_2048.jpg"
-);
-
-const earth = new THREE.Mesh(
-  new THREE.SphereGeometry(10,64,64),
-  new THREE.MeshStandardMaterial({map:earthTexture})
-);
-
-scene.add(earth);
-
-/* =======================
-   SKILLS DATA
-======================= */
-
-const skills = [
- {name:"Kubernetes",info:"Container orchestration platform for automating deployment and scaling."},
- {name:"Docker",info:"Container platform that packages applications with dependencies."},
- {name:"Linux",info:"Open-source OS powering servers and cloud infrastructure."},
- {name:"Python",info:"Automation, scripting, and backend development language."},
- {name:"AWS",info:"Cloud platform providing scalable infrastructure services."},
- {name:"Jenkins",info:"CI/CD automation server."},
- {name:"Grafana",info:"Monitoring and observability dashboard platform."},
- {name:"Terraform",info:"Infrastructure as Code tool for provisioning resources."}
-];
-
-const textObjects = [];
-const fontLoader = new THREE.FontLoader();
-
-/* =======================
-   LOAD FONT & CREATE 3D TEXT
-======================= */
-
-fontLoader.load(
- "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
- function(font){
-
-  skills.forEach((skill,i)=>{
-
-    const textGeometry = new THREE.TextGeometry(skill.name,{
-      font:font,
-      size:5,
-      height:1,
-      curveSegments:8
-    });
-
-    const textMaterial = new THREE.MeshStandardMaterial({
-      color:0x00ffff,
-      emissive:0x0088ff,
-      emissiveIntensity:0.6
-    });
-
-    const textMesh = new THREE.Mesh(textGeometry,textMaterial);
-
-    // Spiral tunnel layout
-    textMesh.position.set(
-      Math.sin(i)*25,
-      Math.cos(i*1.2)*18,
-      -150 - i*150
-    );
-
-    textMesh.userData = skill;
-
-    scene.add(textMesh);
-    textObjects.push(textMesh);
-  });
-
- }
-);
-
-/* =======================
-   CLICK INTERACTION
-======================= */
-
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-window.addEventListener("click",(event)=>{
-  mouse.x = (event.clientX/window.innerWidth)*2 -1;
-  mouse.y = -(event.clientY/window.innerHeight)*2 +1;
-
-  raycaster.setFromCamera(mouse,camera);
-
-  const intersects = raycaster.intersectObjects(textObjects);
-
-  if(intersects.length > 0){
-    const data = intersects[0].object.userData;
-
-    const panel = document.getElementById("panel");
-    panel.innerHTML = "<h2>"+data.name+"</h2><p>"+data.info+"</p>";
-    panel.style.display="block";
-  }
-});
-
-/* =======================
-   TRAVEL + AUTO REPLAY
-======================= */
-
-let speed = 0.8;
-let takeoff = true;
-
-const lastSkillZ = -150 - (skills.length - 1) * 150;
-const resetPoint = lastSkillZ - 200;
-
-function resetJourney(){
-  camera.position.set(0,0,80);
-  takeoff = true;
-  document.getElementById("panel").style.display="none";
-}
-
-function animate(){
-  requestAnimationFrame(animate);
-
-  earth.rotation.y += 0.003;
-
-  if(takeoff){
-    camera.position.z -= 0.4;
-    if(camera.position.z < 40){
-      takeoff = false;
-    }
-  } else {
-    camera.position.z -= speed;
-  }
-
-  // Reset after last skill
-  if(camera.position.z < resetPoint){
-    resetJourney();
-  }
-
-  renderer.render(scene,camera);
-}
-
-animate();
-
-/* =======================
-   RESPONSIVE
-======================= */
-
-window.addEventListener("resize",()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
-});
-
-</script>
 </body>
 </html>
