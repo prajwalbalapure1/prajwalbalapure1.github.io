@@ -2,197 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DevOps Universe | Your Name</title>
+<title>DevOps 3D Universe</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
-}
+body { margin:0; overflow:hidden; font-family:Arial; background:black; }
 
-/* Star Canvas */
-canvas {
+#infoPanel {
     position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-/* Title */
-.title {
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 28px;
-    letter-spacing: 3px;
-    font-weight: bold;
-}
-
-/* Rocket */
-#rocket {
-    position: absolute;
-    font-size: 45px;
-    pointer-events: none;
-    transition: transform 0.1s linear;
-}
-
-/* Planets */
-.planet {
-    position: absolute;
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
-    animation: float 6s ease-in-out infinite;
-}
-
-.planet:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 30px white;
-}
-
-/* Floating animation */
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-/* Skill Modal */
-#modal {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    padding: 20px;
     background: rgba(0,0,0,0.85);
     border: 1px solid white;
-    padding: 20px;
-    text-align: center;
     border-radius: 10px;
+    color: white;
     display: none;
-    backdrop-filter: blur(10px);
 }
 
-/* Planet Colors + Positions */
-.kubernetes { background: #326ce5; top: 20%; left: 10%; }
-.docker { background: #2496ed; top: 70%; left: 15%; }
-.linux { background: #f7df1e; color: black; top: 35%; left: 40%; }
-.python { background: #3776ab; top: 75%; left: 50%; }
-.aws { background: #ff9900; color: black; top: 20%; left: 70%; }
-.jenkins { background: #d24939; top: 60%; left: 75%; }
-.grafana { background: #f46800; top: 40%; left: 85%; }
-.terraform { background: #844fba; top: 85%; left: 30%; }
+#infoPanel h2 { margin-top:0; }
 
+.title {
+    position: fixed;
+    top:20px;
+    width:100%;
+    text-align:center;
+    color:white;
+    letter-spacing:3px;
+}
 </style>
 </head>
-
 <body>
 
-<div class="title">🚀 Exploring My DevOps Universe</div>
+<div class="title">🚀 DevOps Space Journey</div>
+<div id="infoPanel"></div>
 
-<canvas id="stars"></canvas>
-
-<div id="rocket">🚀</div>
-
-<div class="planet kubernetes" data-skill="Kubernetes: Container orchestration & scaling mastery.">Kubernetes</div>
-<div class="planet docker" data-skill="Docker: Containerization & microservices deployment.">Docker</div>
-<div class="planet linux" data-skill="Linux: System administration & shell scripting.">Linux</div>
-<div class="planet python" data-skill="Python: Automation, scripting & backend logic.">Python</div>
-<div class="planet aws" data-skill="AWS: Cloud infrastructure & scalable architectures.">AWS</div>
-<div class="planet jenkins" data-skill="Jenkins: CI/CD pipeline automation.">Jenkins</div>
-<div class="planet grafana" data-skill="Grafana: Monitoring & observability dashboards.">Grafana</div>
-<div class="planet terraform" data-skill="Terraform: Infrastructure as Code expert.">Terraform</div>
-
-<div id="modal"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
+
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(0, 0, 20);
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+/* Lighting */
+const light = new THREE.PointLight(0xffffff, 1.5);
+light.position.set(10, 10, 10);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(ambient);
+
 /* Starfield */
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let stars = [];
-for (let i = 0; i < 200; i++) {
-    stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 2,
-        speed: Math.random() * 0.5
-    });
+function createStars() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    for (let i = 0; i < 10000; i++) {
+        vertices.push(
+            THREE.MathUtils.randFloatSpread(200),
+            THREE.MathUtils.randFloatSpread(200),
+            THREE.MathUtils.randFloatSpread(200)
+        );
+    }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    const material = new THREE.PointsMaterial({color:0xffffff});
+    const stars = new THREE.Points(geometry, material);
+    scene.add(stars);
 }
+createStars();
 
-function drawStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "white";
-    stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fill();
-        star.y += star.speed;
-        if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-        }
-    });
-    requestAnimationFrame(drawStars);
+/* Earth */
+const earthTexture = new THREE.TextureLoader().load(
+"https://threejs.org/examples/textures/earth_atmos_2048.jpg"
+);
+const earth = new THREE.Mesh(
+    new THREE.SphereGeometry(5, 64, 64),
+    new THREE.MeshStandardMaterial({map: earthTexture})
+);
+scene.add(earth);
+
+/* Skills Data */
+const skills = [
+{
+    name:"Kubernetes",
+    texture:"https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg",
+    info:"Kubernetes is a container orchestration system used to automate deployment, scaling, and management of containerized applications."
+},
+{
+    name:"Docker",
+    texture:"https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
+    info:"Docker is a platform that enables developers to build, ship, and run applications in containers."
+},
+{
+    name:"Linux",
+    texture:"https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png",
+    info:"Linux is an open-source operating system widely used for servers, DevOps, and cloud environments."
+},
+{
+    name:"AWS",
+    texture:"https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+    info:"AWS is Amazon’s cloud computing platform offering scalable infrastructure and services."
 }
-drawStars();
+];
 
-/* Rocket Movement + Rotation */
-const rocket = document.getElementById("rocket");
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-let posX = mouseX;
-let posY = mouseY;
+const planets = [];
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
-document.addEventListener("mousemove", e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+/* Create Skill Planets */
+skills.forEach((skill, i) => {
+    const texture = new THREE.TextureLoader().load(skill.texture);
+    const planet = new THREE.Mesh(
+        new THREE.SphereGeometry(2.5, 64, 64),
+        new THREE.MeshStandardMaterial({map:texture})
+    );
+
+    planet.position.set((i-1.5)*12, THREE.MathUtils.randFloatSpread(8), -20 - i*10);
+    planet.userData = skill;
+    scene.add(planet);
+    planets.push(planet);
 });
 
-function animateRocket() {
-    posX += (mouseX - posX) * 0.1;
-    posY += (mouseY - posY) * 0.1;
+/* Click Interaction */
+window.addEventListener('click', (event)=>{
+    mouse.x = (event.clientX / window.innerWidth)*2 -1;
+    mouse.y = -(event.clientY / window.innerHeight)*2 +1;
+    raycaster.setFromCamera(mouse, camera);
 
-    let angle = Math.atan2(mouseY - posY, mouseX - posX);
-    rocket.style.left = posX + "px";
-    rocket.style.top = posY + "px";
-    rocket.style.transform = `rotate(${angle}rad)`;
-
-    requestAnimationFrame(animateRocket);
-}
-animateRocket();
-
-/* Skill Modal */
-const planets = document.querySelectorAll(".planet");
-const modal = document.getElementById("modal");
-
-planets.forEach(planet => {
-    planet.addEventListener("click", () => {
-        modal.innerHTML = "<h3>" + planet.innerText + "</h3><p>" + planet.dataset.skill + "</p>";
-        modal.style.display = "block";
-    });
-});
-
-document.addEventListener("click", e => {
-    if (!e.target.classList.contains("planet")) {
-        modal.style.display = "none";
+    const intersects = raycaster.intersectObjects(planets);
+    if(intersects.length > 0){
+        const data = intersects[0].object.userData;
+        const panel = document.getElementById("infoPanel");
+        panel.innerHTML = "<h2>"+data.name+"</h2><p>"+data.info+"</p>";
+        panel.style.display = "block";
     }
 });
-</script>
 
+/* Takeoff Animation */
+let takeoff = true;
+function animate(){
+    requestAnimationFrame(animate);
+
+    earth.rotation.y += 0.002;
+
+    if(takeoff){
+        camera.position.z -= 0.1;
+        if(camera.position.z < 5){
+            takeoff = false;
+        }
+    }
+
+    planets.forEach(p => p.rotation.y += 0.01);
+
+    renderer.render(scene, camera);
+}
+animate();
+
+/* Resize */
+window.addEventListener('resize', ()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
 </body>
 </html>
