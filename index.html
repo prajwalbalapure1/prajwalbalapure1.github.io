@@ -2,41 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Space Skills Portfolio</title>
+<title>DevOps Universe | Your Name</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at bottom, #0b0f2b 0%, #000 100%);
-    font-family: Arial, Helvetica, sans-serif;
+    background: black;
+    font-family: 'Segoe UI', sans-serif;
     color: white;
 }
 
-/* Stars */
-body::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: url("https://www.transparenttextures.com/patterns/stardust.png");
-    animation: stars 200s linear infinite;
+/* Star Canvas */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
-@keyframes stars {
-    from { transform: translate(0, 0); }
-    to { transform: translate(-1000px, -1000px); }
+/* Title */
+.title {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 3px;
+    font-weight: bold;
 }
 
 /* Rocket */
 #rocket {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    font-size: 45px;
     pointer-events: none;
-    transition: transform 0.1s;
-    font-size: 40px;
+    transition: transform 0.1s linear;
 }
 
 /* Planets */
@@ -46,12 +48,13 @@ body::before {
     height: 130px;
     border-radius: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    font-weight: bold;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    font-weight: bold;
+    transition: 0.3s;
+    animation: float 6s ease-in-out infinite;
 }
 
 .planet:hover {
@@ -59,24 +62,38 @@ body::before {
     box-shadow: 0 0 30px white;
 }
 
-/* Individual planet colors */
-.kubernetes { background: #326ce5; top: 20%; left: 15%; }
-.docker { background: #2496ed; top: 60%; left: 10%; }
-.linux { background: #f7df1e; color: black; top: 35%; left: 40%; }
-.python { background: #3776ab; top: 70%; left: 45%; }
-.aws { background: #ff9900; color: black; top: 25%; left: 70%; }
-.jenkins { background: #d24939; top: 60%; left: 75%; }
-.grafana { background: #f46800; top: 40%; left: 85%; }
-.terraform { background: #844fba; top: 80%; left: 25%; }
+/* Floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
 
-.title {
-    position: absolute;
-    top: 20px;
+/* Skill Modal */
+#modal {
+    position: fixed;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 28px;
-    letter-spacing: 2px;
+    width: 400px;
+    background: rgba(0,0,0,0.85);
+    border: 1px solid white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    display: none;
+    backdrop-filter: blur(10px);
 }
+
+/* Planet Colors + Positions */
+.kubernetes { background: #326ce5; top: 20%; left: 10%; }
+.docker { background: #2496ed; top: 70%; left: 15%; }
+.linux { background: #f7df1e; color: black; top: 35%; left: 40%; }
+.python { background: #3776ab; top: 75%; left: 50%; }
+.aws { background: #ff9900; color: black; top: 20%; left: 70%; }
+.jenkins { background: #d24939; top: 60%; left: 75%; }
+.grafana { background: #f46800; top: 40%; left: 85%; }
+.terraform { background: #844fba; top: 85%; left: 30%; }
+
 </style>
 </head>
 
@@ -84,23 +101,96 @@ body::before {
 
 <div class="title">🚀 Exploring My DevOps Universe</div>
 
+<canvas id="stars"></canvas>
+
 <div id="rocket">🚀</div>
 
-<div class="planet kubernetes">Kubernetes</div>
-<div class="planet docker">Docker</div>
-<div class="planet linux">Linux</div>
-<div class="planet python">Python</div>
-<div class="planet aws">AWS</div>
-<div class="planet jenkins">Jenkins</div>
-<div class="planet grafana">Grafana</div>
-<div class="planet terraform">Terraform</div>
+<div class="planet kubernetes" data-skill="Kubernetes: Container orchestration & scaling mastery.">Kubernetes</div>
+<div class="planet docker" data-skill="Docker: Containerization & microservices deployment.">Docker</div>
+<div class="planet linux" data-skill="Linux: System administration & shell scripting.">Linux</div>
+<div class="planet python" data-skill="Python: Automation, scripting & backend logic.">Python</div>
+<div class="planet aws" data-skill="AWS: Cloud infrastructure & scalable architectures.">AWS</div>
+<div class="planet jenkins" data-skill="Jenkins: CI/CD pipeline automation.">Jenkins</div>
+<div class="planet grafana" data-skill="Grafana: Monitoring & observability dashboards.">Grafana</div>
+<div class="planet terraform" data-skill="Terraform: Infrastructure as Code expert.">Terraform</div>
+
+<div id="modal"></div>
 
 <script>
-const rocket = document.getElementById("rocket");
+/* Starfield */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 
-document.addEventListener("mousemove", (e) => {
-    rocket.style.left = e.pageX + "px";
-    rocket.style.top = e.pageY + "px";
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+for (let i = 0; i < 200; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2,
+        speed: Math.random() * 0.5
+    });
+}
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+        }
+    });
+    requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* Rocket Movement + Rotation */
+const rocket = document.getElementById("rocket");
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let posX = mouseX;
+let posY = mouseY;
+
+document.addEventListener("mousemove", e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+function animateRocket() {
+    posX += (mouseX - posX) * 0.1;
+    posY += (mouseY - posY) * 0.1;
+
+    let angle = Math.atan2(mouseY - posY, mouseX - posX);
+    rocket.style.left = posX + "px";
+    rocket.style.top = posY + "px";
+    rocket.style.transform = `rotate(${angle}rad)`;
+
+    requestAnimationFrame(animateRocket);
+}
+animateRocket();
+
+/* Skill Modal */
+const planets = document.querySelectorAll(".planet");
+const modal = document.getElementById("modal");
+
+planets.forEach(planet => {
+    planet.addEventListener("click", () => {
+        modal.innerHTML = "<h3>" + planet.innerText + "</h3><p>" + planet.dataset.skill + "</p>";
+        modal.style.display = "block";
+    });
+});
+
+document.addEventListener("click", e => {
+    if (!e.target.classList.contains("planet")) {
+        modal.style.display = "none";
+    }
 });
 </script>
 
