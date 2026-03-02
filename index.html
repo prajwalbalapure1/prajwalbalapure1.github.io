@@ -2,9 +2,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>DevOps Galaxy</title>
+<title>DevOps Space Journey</title>
+
 <style>
-body { margin:0; overflow:hidden; background:black; font-family:Arial; }
+body {
+  margin:0;
+  overflow:hidden;
+  background:black;
+  font-family:Arial, sans-serif;
+}
+
 .title {
   position:fixed;
   top:20px;
@@ -14,6 +21,7 @@ body { margin:0; overflow:hidden; background:black; font-family:Arial; }
   font-size:22px;
   letter-spacing:3px;
 }
+
 #panel {
   position:fixed;
   right:40px;
@@ -27,7 +35,11 @@ body { margin:0; overflow:hidden; background:black; font-family:Arial; }
   color:white;
   display:none;
 }
-#panel h2 { margin-top:0; color:#00ffff; }
+
+#panel h2 {
+  margin-top:0;
+  color:#00ffff;
+}
 </style>
 </head>
 <body>
@@ -41,23 +53,41 @@ body { margin:0; overflow:hidden; background:black; font-family:Arial; }
 
 <script>
 
+/* =======================
+   BASIC SCENE SETUP
+======================= */
+
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 4000);
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  5000
+);
 camera.position.set(0,0,80);
 
 const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(innerWidth, innerHeight);
+renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-/* Lighting */
-scene.add(new THREE.AmbientLight(0xffffff,0.6));
-const light = new THREE.PointLight(0xffffff,1.5);
-light.position.set(50,50,50);
-scene.add(light);
+/* =======================
+   LIGHTING
+======================= */
 
-/* Starfield */
-const starGeo = new THREE.BufferGeometry();
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+const pointLight = new THREE.PointLight(0xffffff, 1.5);
+pointLight.position.set(50,50,50);
+scene.add(pointLight);
+
+/* =======================
+   STARFIELD
+======================= */
+
+const starGeometry = new THREE.BufferGeometry();
 const starVertices = [];
+
 for(let i=0;i<15000;i++){
   starVertices.push(
     THREE.MathUtils.randFloatSpread(3000),
@@ -65,40 +95,56 @@ for(let i=0;i<15000;i++){
     THREE.MathUtils.randFloatSpread(3000)
   );
 }
-starGeo.setAttribute("position",
+
+starGeometry.setAttribute(
+  "position",
   new THREE.Float32BufferAttribute(starVertices,3)
 );
+
 const starMaterial = new THREE.PointsMaterial({
   color:0xffffff,
   size:1.5
 });
-const stars = new THREE.Points(starGeo,starMaterial);
+
+const stars = new THREE.Points(starGeometry, starMaterial);
 scene.add(stars);
 
-/* Earth */
+/* =======================
+   EARTH (START POINT)
+======================= */
+
 const earthTexture = new THREE.TextureLoader().load(
-"https://threejs.org/examples/textures/earth_atmos_2048.jpg"
+  "https://threejs.org/examples/textures/earth_atmos_2048.jpg"
 );
+
 const earth = new THREE.Mesh(
   new THREE.SphereGeometry(10,64,64),
   new THREE.MeshStandardMaterial({map:earthTexture})
 );
+
 scene.add(earth);
 
-/* Skills */
+/* =======================
+   SKILLS DATA
+======================= */
+
 const skills = [
- {name:"Kubernetes",info:"Container orchestration platform for automating deployment, scaling, and management."},
+ {name:"Kubernetes",info:"Container orchestration platform for automating deployment and scaling."},
  {name:"Docker",info:"Container platform that packages applications with dependencies."},
  {name:"Linux",info:"Open-source OS powering servers and cloud infrastructure."},
- {name:"Python",info:"Powerful scripting and automation language."},
+ {name:"Python",info:"Automation, scripting, and backend development language."},
  {name:"AWS",info:"Cloud platform providing scalable infrastructure services."},
  {name:"Jenkins",info:"CI/CD automation server."},
- {name:"Grafana",info:"Monitoring & observability dashboard platform."},
+ {name:"Grafana",info:"Monitoring and observability dashboard platform."},
  {name:"Terraform",info:"Infrastructure as Code tool for provisioning resources."}
 ];
 
+const textObjects = [];
 const fontLoader = new THREE.FontLoader();
-let textObjects = [];
+
+/* =======================
+   LOAD FONT & CREATE 3D TEXT
+======================= */
 
 fontLoader.load(
  "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
@@ -106,26 +152,26 @@ fontLoader.load(
 
   skills.forEach((skill,i)=>{
 
-    const textGeo = new THREE.TextGeometry(skill.name,{
+    const textGeometry = new THREE.TextGeometry(skill.name,{
       font:font,
       size:5,
       height:1,
       curveSegments:8
     });
 
-    const textMat = new THREE.MeshStandardMaterial({
+    const textMaterial = new THREE.MeshStandardMaterial({
       color:0x00ffff,
       emissive:0x0088ff,
       emissiveIntensity:0.6
     });
 
-    const textMesh = new THREE.Mesh(textGeo,textMat);
+    const textMesh = new THREE.Mesh(textGeometry,textMaterial);
 
-    // Clean spacing in 3D tunnel
+    // Spiral tunnel layout
     textMesh.position.set(
-      Math.sin(i)*20,
-      Math.cos(i*1.2)*15,
-      -150 - i*120
+      Math.sin(i)*25,
+      Math.cos(i*1.2)*18,
+      -150 - i*150
     );
 
     textMesh.userData = skill;
@@ -133,31 +179,49 @@ fontLoader.load(
     scene.add(textMesh);
     textObjects.push(textMesh);
   });
+
  }
 );
 
-/* Click detection */
+/* =======================
+   CLICK INTERACTION
+======================= */
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-addEventListener("click",(event)=>{
-  mouse.x = (event.clientX/innerWidth)*2-1;
-  mouse.y = -(event.clientY/innerHeight)*2+1;
+window.addEventListener("click",(event)=>{
+  mouse.x = (event.clientX/window.innerWidth)*2 -1;
+  mouse.y = -(event.clientY/window.innerHeight)*2 +1;
+
   raycaster.setFromCamera(mouse,camera);
 
-  const hits = raycaster.intersectObjects(textObjects);
+  const intersects = raycaster.intersectObjects(textObjects);
 
-  if(hits.length>0){
-    const data = hits[0].object.userData;
+  if(intersects.length > 0){
+    const data = intersects[0].object.userData;
+
     const panel = document.getElementById("panel");
     panel.innerHTML = "<h2>"+data.name+"</h2><p>"+data.info+"</p>";
     panel.style.display="block";
   }
 });
 
-/* Travel animation */
-let speed = 0.7;
+/* =======================
+   TRAVEL + AUTO REPLAY
+======================= */
+
+let speed = 0.8;
 let takeoff = true;
+
+const lastSkillZ = -150 - (skills.length - 1) * 150;
+const resetPoint = lastSkillZ - 200;
+
+function resetJourney(){
+  camera.position.set(0,0,80);
+  takeoff = true;
+  document.getElementById("panel").style.display="none";
+}
 
 function animate(){
   requestAnimationFrame(animate);
@@ -173,15 +237,24 @@ function animate(){
     camera.position.z -= speed;
   }
 
+  // Reset after last skill
+  if(camera.position.z < resetPoint){
+    resetJourney();
+  }
+
   renderer.render(scene,camera);
 }
+
 animate();
 
-/* Resize */
-addEventListener("resize",()=>{
-  camera.aspect = innerWidth/innerHeight;
+/* =======================
+   RESPONSIVE
+======================= */
+
+window.addEventListener("resize",()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
+  renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
 </script>
