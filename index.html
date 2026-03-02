@@ -6,6 +6,7 @@
 <title>Your Name | DevOps Engineer</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
 * {
@@ -13,12 +14,20 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    scroll-behavior: smooth;
 }
 
 body {
-    background: linear-gradient(135deg, #0f172a, #020617);
+    background: linear-gradient(-45deg, #0f172a, #020617, #0f172a, #111827);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
     color: white;
+    overflow-x: hidden;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 header {
@@ -27,33 +36,29 @@ header {
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(10px);
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(0,0,0,0.4);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 }
 
 header h2 {
     color: #22d3ee;
-    font-weight: 600;
 }
 
 .hero {
-    padding: 120px 8% 80px;
+    padding: 150px 8% 100px;
     max-width: 900px;
 }
 
-.hero h1 {
-    font-size: 50px;
-    margin-bottom: 20px;
-}
-
-.hero span {
+.terminal {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+    font-family: monospace;
     color: #22d3ee;
-}
-
-.summary {
-    font-size: 18px;
-    color: #94a3b8;
-    line-height: 1.7;
-    margin-top: 20px;
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .section-title {
@@ -71,26 +76,48 @@ header h2 {
 }
 
 .skill-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 25px;
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
     border-radius: 18px;
     text-align: center;
-    font-weight: 500;
     backdrop-filter: blur(15px);
     transition: 0.4s;
     border: 1px solid rgba(255,255,255,0.05);
 }
 
+.skill-card i {
+    font-size: 35px;
+    margin-bottom: 15px;
+    color: #22d3ee;
+}
+
 .skill-card:hover {
-    transform: translateY(-8px);
-    background: rgba(34, 211, 238, 0.1);
+    transform: translateY(-10px);
     border: 1px solid #22d3ee;
+    box-shadow: 0 0 20px rgba(34,211,238,0.4);
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: #22d3ee;
+    color: #0f172a;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #06b6d4;
+    transform: scale(1.05);
 }
 
 footer {
     text-align: center;
     padding: 30px;
-    background: #020617;
+    background: rgba(0,0,0,0.4);
     color: #94a3b8;
 }
 </style>
@@ -103,30 +130,38 @@ footer {
 </header>
 
 <section class="hero">
-    <h1>Hello, I'm <span>Your Name</span></h1>
-    <h2 style="color:#cbd5e1; font-weight:400;">DevOps Engineer</h2>
+    <h1 style="font-size:50px;">Hello, I'm <span style="color:#22d3ee;">Your Name</span></h1>
+    <h2 style="font-weight:400;color:#cbd5e1;">DevOps Engineer</h2>
 
-    <p class="summary">
+    <div class="terminal">
+        $ Experienced DevOps Professional<br>
+        $ 4+ Years Industrial Experience<br>
+        $ Cloud • Automation • CI/CD • Infrastructure
+    </div>
+
+    <p style="margin-top:30px;color:#94a3b8;line-height:1.7;">
         Result-oriented and dedicated DevOps professional with 4 years of industrial experience.
         Looking for a challenging role to deepen expertise in DevOps and cloud infrastructure
         while contributing to high-performance, scalable systems within a dynamic team.
     </p>
+
+    <a href="#" class="btn">Download Resume</a>
 </section>
 
 <h2 class="section-title">Technical Skills</h2>
 
 <section class="skills-container">
-    <div class="skill-card">Kubernetes</div>
-    <div class="skill-card">Git & GitHub</div>
-    <div class="skill-card">Jenkins</div>
-    <div class="skill-card">Docker</div>
-    <div class="skill-card">Python</div>
-    <div class="skill-card">Grafana</div>
-    <div class="skill-card">AWS</div>
-    <div class="skill-card">SQL</div>
-    <div class="skill-card">Prometheus</div>
-    <div class="skill-card">Linux</div>
-    <div class="skill-card">Terraform</div>
+    <div class="skill-card"><i class="fa-brands fa-docker"></i><div>Docker</div></div>
+    <div class="skill-card"><i class="fa-brands fa-aws"></i><div>AWS</div></div>
+    <div class="skill-card"><i class="fa-brands fa-github"></i><div>Git & GitHub</div></div>
+    <div class="skill-card"><i class="fa-solid fa-server"></i><div>Kubernetes</div></div>
+    <div class="skill-card"><i class="fa-solid fa-code-branch"></i><div>Jenkins</div></div>
+    <div class="skill-card"><i class="fa-brands fa-python"></i><div>Python</div></div>
+    <div class="skill-card"><i class="fa-solid fa-chart-line"></i><div>Grafana</div></div>
+    <div class="skill-card"><i class="fa-solid fa-database"></i><div>SQL</div></div>
+    <div class="skill-card"><i class="fa-solid fa-wave-square"></i><div>Prometheus</div></div>
+    <div class="skill-card"><i class="fa-brands fa-linux"></i><div>Linux</div></div>
+    <div class="skill-card"><i class="fa-solid fa-layer-group"></i><div>Terraform</div></div>
 </section>
 
 <footer>
