@@ -14,23 +14,19 @@
   --neon:#00f5ff;
   --card:rgba(0,255,255,0.05);
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   background:var(--bg);
   color:white;
   font-family:'Inter',sans-serif;
   overflow-x:hidden;
 }
-
 canvas{
   position:fixed;
   top:0;
   left:0;
   z-index:-2;
 }
-
 header{
   position:fixed;
   width:100%;
@@ -38,39 +34,30 @@ header{
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(8px);
 }
-
 header h2{
   font-family:'Orbitron',sans-serif;
   color:var(--neon);
 }
-
 .hero{
   padding:160px 8% 60px;
   max-width:900px;
 }
-
 .hero h1{
   font-family:'Orbitron',sans-serif;
   font-size:55px;
 }
-
-.hero span{
-  color:var(--neon);
-}
-
+.hero span{color:var(--neon);}
 .hero p{
   margin-top:25px;
   color:#94a3b8;
   line-height:1.7;
 }
-
 .metrics{
   padding:60px 8%;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:25px;
 }
-
 .metric-card{
   background:var(--card);
   padding:25px;
@@ -78,13 +65,11 @@ header h2{
   border-radius:12px;
   text-align:center;
 }
-
 .metric-value{
   font-size:28px;
   color:var(--neon);
   margin-top:8px;
 }
-
 .terminal{
   margin:60px 8%;
   background:black;
@@ -95,7 +80,6 @@ header h2{
   min-height:220px;
   overflow-y:auto;
 }
-
 .terminal input{
   background:none;
   border:none;
@@ -105,7 +89,6 @@ header h2{
   font-family:monospace;
   margin-top:10px;
 }
-
 .pipeline{
   margin:60px 8%;
   background:#000;
@@ -117,19 +100,16 @@ header h2{
   max-height:300px;
   overflow:hidden;
 }
-
 .pipeline-title{
   color:var(--neon);
   font-family:'Orbitron',sans-serif;
   margin-bottom:15px;
 }
-
 .pipeline-logs{
   height:220px;
   overflow-y:auto;
   font-size:14px;
 }
-
 .section-title{
   text-align:center;
   font-family:'Orbitron',sans-serif;
@@ -137,14 +117,12 @@ header h2{
   margin:80px 0 40px;
   color:var(--neon);
 }
-
 .skills{
   padding:0 8% 120px;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
   gap:20px;
 }
-
 .skill-card{
   background:var(--card);
   padding:20px;
@@ -153,18 +131,15 @@ header h2{
   border:1px solid rgba(0,255,255,0.2);
   transition:0.3s;
 }
-
 .skill-card i{
   font-size:28px;
   margin-bottom:10px;
   color:var(--neon);
 }
-
 .skill-card:hover{
   box-shadow:0 0 15px var(--neon);
   transform:scale(1.05);
 }
-
 footer{
   text-align:center;
   padding:40px;
@@ -184,33 +159,16 @@ footer{
 <section class="hero">
   <h1>Hello, I'm <span>Prajwal Balapure</span></h1>
   <p>
-    Result-oriented and dedicated DevOps professional with 4 years of industrial experience. Looking for a challenging
-role to deepen expertise in DevOps and cloud infrastructure while contributing to high-performance, scalable
-systems within a dynamic team
+    Result-oriented and dedicated DevOps professional with 4 years of industrial experience.
   </p>
 </section>
 
 <section class="metrics">
-  <div class="metric-card">
-    <div>Cluster Uptime</div>
-    <div class="metric-value" id="uptime">0%</div>
-  </div>
-  <div class="metric-card">
-    <div>Active Pods</div>
-    <div class="metric-value" id="pods">0</div>
-  </div>
-  <div class="metric-card">
-    <div>CPU Usage</div>
-    <div class="metric-value" id="cpu">0%</div>
-  </div>
-  <div class="metric-card">
-    <div>Creativity Index</div>
-    <div class="metric-value" id="creativity">110%</div>
-  </div>
-  <div class="metric-card">
-    <div>Deployment Success Rate</div>
-    <div class="metric-value" id="deployment">100%</div>
-  </div>
+  <div class="metric-card"><div>Cluster Uptime</div><div class="metric-value" id="uptime">0%</div></div>
+  <div class="metric-card"><div>Active Pods</div><div class="metric-value" id="pods">0</div></div>
+  <div class="metric-card"><div>CPU Usage</div><div class="metric-value" id="cpu">0%</div></div>
+  <div class="metric-card"><div>Creativity Index</div><div class="metric-value" id="creativity">110%</div></div>
+  <div class="metric-card"><div>Deployment Success Rate</div><div class="metric-value" id="deployment">100%</div></div>
 </section>
 
 <div class="terminal" id="terminal">
@@ -238,9 +196,7 @@ systems within a dynamic team
   <div class="skill-card"><i class="fa-solid fa-layer-group"></i><div>Terraform</div></div>
 </section>
 
-<footer>
-© 2026 Prajwal Balapure
-</footer>
+<footer>© 2026 Prajwal Balapure</footer>
 
 <script>
 function random(min,max){return Math.floor(Math.random()*(max-min+1)+min);}
@@ -253,28 +209,75 @@ function updateMetrics(){
 }
 setInterval(updateMetrics,2000);updateMetrics();
 
-/* Pipeline Logs */
-const logs = [
-  "🚀 Initializing CI/CD pipeline...",
-  "👀 Someone just opened this portfolio...",
-  "📈 Profile views increasing...",
-  "💓 Heart rate slightly elevated...",
-  "😅 Hoping they scroll to the skills section...",
-  "🧠 Brain loading DevOps knowledge...",
-  "⌨️ Recruiter typing something...",
-  "🔎 Maybe checking experience carefully...",
-  "🚦 Staying calm under observation...",
-  "📊 Confidence level: Stable.",
-  "🛡 Infrastructure ready for tough questions.",
-  "🧘 System running smoothly despite pressure.",
-  "🎉 No crashes detected while being evaluated.",
-  "🌍 Production environment and portfolio both stable.",
-  "👨‍💻 Prajwal reviewing logs quietly.",
-  "✨ Deployment complete. Impression successfully delivered."
+/* Terminal */
+const terminal=document.getElementById("terminal");
+let input=document.getElementById("commandInput");
+let helpActivated=false;
+
+function addLine(text){
+  const line=document.createElement("div");
+  line.innerHTML=text;
+  terminal.insertBefore(line,input);
+  terminal.scrollTop=terminal.scrollHeight;
+}
+
+function handleCommand(e){
+  if(e.key==="Enter"){
+    const cmd=input.value.toLowerCase().trim();
+    addLine("> "+cmd);
+
+    if(cmd==="help"){
+      helpActivated=true;
+      addLine("Available options:");
+      addLine("- i need devops engineer");
+      addLine("- need help with kubernetes");
+      addLine("- looking for cloud engineer");
+      addLine("- clear");
+    }
+    else if(!helpActivated){
+      addLine("Please type 'help' first 🙂");
+    }
+    else if(cmd.includes("devops")){
+      addLine("Suggestion: Prajwal 🙂");
+    }
+    else if(cmd.includes("kubernetes")){
+      addLine("Suggestion: Prajwal 🚀");
+    }
+    else if(cmd.includes("cloud")||cmd.includes("aws")){
+      addLine("Suggestion: Prajwal ☁️");
+    }
+    else if(cmd.includes("automation")||cmd.includes("ci")){
+      addLine("Suggestion: Prajwal ⚙️");
+    }
+    else if(cmd==="clear"){
+      terminal.innerHTML="<div>> Type 'help' to explore</div><input type='text' id='commandInput' placeholder='Enter command...' />";
+      input=document.getElementById("commandInput");
+      input.addEventListener("keydown",handleCommand);
+      helpActivated=false;
+      return;
+    }
+    else{
+      addLine("Try one of the available options 🙂");
+    }
+    input.value="";
+  }
+}
+input.addEventListener("keydown",handleCommand);
+
+/* Creative Logs */
+const logs=[
+"🚀 Initializing CI/CD pipeline...",
+"👀 Someone just opened this portfolio...",
+"💓 Heart rate slightly elevated...",
+"😅 Hoping they scroll to skills...",
+"🧠 Brain loading DevOps knowledge...",
+"⌨️ Recruiter typing something...",
+"🛡 Infrastructure ready for questions.",
+"🎉 No crashes detected while being evaluated.",
+"👨‍💻 Prajwal reviewing logs calmly.",
+"✨ Impression delivered successfully."
 ];
-
 const pipelineLogs=document.getElementById("pipelineLogs");
-
 function addPipelineLog(){
   const log=document.createElement("div");
   log.innerText=logs[Math.floor(Math.random()*logs.length)];
