@@ -6,6 +6,7 @@
 <title>Prajwal Balapure | DevOps Engineer</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
 :root{
@@ -23,7 +24,6 @@ body{
   overflow-x:hidden;
 }
 
-/* Matrix Canvas */
 canvas{
   position:fixed;
   top:0;
@@ -31,7 +31,6 @@ canvas{
   z-index:-2;
 }
 
-/* Header */
 header{
   position:fixed;
   width:100%;
@@ -45,7 +44,6 @@ header h2{
   color:var(--neon);
 }
 
-/* Hero */
 .hero{
   padding:160px 8% 60px;
   max-width:900px;
@@ -66,7 +64,6 @@ header h2{
   line-height:1.7;
 }
 
-/* Metrics */
 .metrics{
   padding:60px 8%;
   display:grid;
@@ -88,7 +85,6 @@ header h2{
   margin-top:8px;
 }
 
-/* Terminal */
 .terminal{
   margin:60px 8%;
   background:black;
@@ -110,7 +106,6 @@ header h2{
   margin-top:10px;
 }
 
-/* Pipeline Logs */
 .pipeline{
   margin:60px 8%;
   background:#000;
@@ -135,7 +130,6 @@ header h2{
   font-size:14px;
 }
 
-/* Skills */
 .section-title{
   text-align:center;
   font-family:'Orbitron',sans-serif;
@@ -158,6 +152,12 @@ header h2{
   text-align:center;
   border:1px solid rgba(0,255,255,0.2);
   transition:0.3s;
+}
+
+.skill-card i{
+  font-size:28px;
+  margin-bottom:10px;
+  color:var(--neon);
 }
 
 .skill-card:hover{
@@ -184,8 +184,8 @@ footer{
 <section class="hero">
   <h1>Hello, I'm <span>Prajwal Balapure</span></h1>
   <p>
-    DevOps Engineer with 4 years of industrial experience specializing in cloud infrastructure,
-    CI/CD automation, container orchestration, and scalable distributed systems.
+    DevOps Engineer focused on cloud infrastructure,
+    CI/CD automation and scalable deployments.
   </p>
 </section>
 
@@ -213,7 +213,7 @@ footer{
 </section>
 
 <div class="terminal" id="terminal">
-  <div>> Type 'help' to see commands</div>
+  <div>> Type 'help' to explore</div>
   <input type="text" id="commandInput" placeholder="Enter command..." />
 </div>
 
@@ -225,20 +225,20 @@ footer{
 <h2 class="section-title">Technical Skills</h2>
 
 <section class="skills">
-  <div class="skill-card">Docker</div>
-  <div class="skill-card">Kubernetes</div>
-  <div class="skill-card">AWS</div>
-  <div class="skill-card">Git & GitHub</div>
-  <div class="skill-card">Jenkins</div>
-  <div class="skill-card">Python</div>
-  <div class="skill-card">Grafana</div>
-  <div class="skill-card">Prometheus</div>
-  <div class="skill-card">Linux</div>
-  <div class="skill-card">Terraform</div>
+  <div class="skill-card"><i class="fa-brands fa-docker"></i><div>Docker</div></div>
+  <div class="skill-card"><i class="fa-solid fa-dharmachakra"></i><div>Kubernetes</div></div>
+  <div class="skill-card"><i class="fa-brands fa-aws"></i><div>AWS</div></div>
+  <div class="skill-card"><i class="fa-brands fa-github"></i><div>Git & GitHub</div></div>
+  <div class="skill-card"><i class="fa-solid fa-gears"></i><div>Jenkins</div></div>
+  <div class="skill-card"><i class="fa-brands fa-python"></i><div>Python</div></div>
+  <div class="skill-card"><i class="fa-solid fa-chart-line"></i><div>Grafana</div></div>
+  <div class="skill-card"><i class="fa-solid fa-wave-square"></i><div>Prometheus</div></div>
+  <div class="skill-card"><i class="fa-brands fa-linux"></i><div>Linux</div></div>
+  <div class="skill-card"><i class="fa-solid fa-layer-group"></i><div>Terraform</div></div>
 </section>
 
 <footer>
-© 2026 Prajwal Balapure | DevOps Engineer
+© 2026 Prajwal Balapure
 </footer>
 
 <script>
@@ -252,72 +252,23 @@ function updateMetrics(){
 }
 setInterval(updateMetrics,2000);updateMetrics();
 
-const terminal=document.getElementById("terminal");
-let input=document.getElementById("commandInput");
-
-function addLine(text){
-  const line=document.createElement("div");
-  line.innerHTML=text;
-  terminal.insertBefore(line,input);
-  terminal.scrollTop=terminal.scrollHeight;
-}
-
-function handleCommand(e){
-  if(e.key==="Enter"){
-    const cmd=input.value.toLowerCase().trim();
-    addLine("> "+cmd);
-    switch(cmd){
-      case "help":
-        addLine("Help you with what?");
-        addLine("- best devops engineer");
-        addLine("- best in kubernetes");
-        addLine("- best in aws");
-        addLine("- best in automation");
-        addLine("- clear");
-        break;
-      case "best devops engineer":
-        addLine("🔥 Prajwal Balapure 🔥");
-        break;
-      case "best in kubernetes":
-        addLine("🚀 Prajwal Balapure 🚀");
-        break;
-      case "best in aws":
-        addLine("☁️ Prajwal Balapure ☁️");
-        break;
-      case "best in automation":
-        addLine("⚙️ Prajwal Balapure ⚙️");
-        break;
-      case "clear":
-        terminal.innerHTML="<div>> Type 'help' to see commands</div><input type='text' id='commandInput' placeholder='Enter command...' />";
-        input=document.getElementById("commandInput");
-        input.addEventListener("keydown",handleCommand);
-        return;
-      default:
-        addLine("Command not recognized. Type 'help'.");
-    }
-    input.value="";
-  }
-}
-input.addEventListener("keydown",handleCommand);
-
+/* Pipeline Logs */
 const logs=[
 "Initializing pipeline...",
-"Cloning repository...",
-"Running unit tests...",
-"All tests passed ✅",
-"Building Docker image 🐳",
+"Fetching latest changes...",
+"Running tests... all green.",
+"Building Docker image...",
 "Pushing image to registry...",
-"Deploying to Kubernetes 🚀",
-"Pods starting up...",
-"Health checks passing...",
-"Scaling replicas to 5...",
-"Automation level: Legendary 😎",
-"CPU trying its best...",
-"Cloud bill slightly increasing ☁️💸",
-"Jenkins feeling proud.",
-"Terraform says infrastructure looks beautiful.",
-"Zero downtime achieved 🎯",
-"Deployment successful. Prajwal Balapure approves 🔥"
+"Deploying to cluster...",
+"Pods warming up nicely.",
+"Health checks look good.",
+"Scaling replicas smoothly.",
+"Monitoring metrics...",
+"Automation doing its thing.",
+"Cloud resources stable.",
+"Deployment completed successfully.",
+"Prajwal reviewing logs quietly.",
+"Everything looks calm in production."
 ];
 
 const pipelineLogs=document.getElementById("pipelineLogs");
@@ -333,6 +284,7 @@ function addPipelineLog(){
 }
 setInterval(addPipelineLog,1500);
 
+/* Softer Matrix */
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 canvas.height=window.innerHeight;
@@ -343,9 +295,9 @@ const columns=canvas.width/fontSize;
 const drops=[];
 for(let x=0;x<columns;x++)drops[x]=1;
 function draw(){
-  ctx.fillStyle="rgba(5,8,22,0.05)";
+  ctx.fillStyle="rgba(5,8,22,0.15)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#00f5ff";
+  ctx.fillStyle="rgba(0,245,255,0.25)";
   ctx.font=fontSize+"px monospace";
   for(let i=0;i<drops.length;i++){
     const text=letters[Math.floor(Math.random()*letters.length)];
@@ -355,10 +307,6 @@ function draw(){
   }
 }
 setInterval(draw,33);
-window.addEventListener("resize",()=>{
-  canvas.height=window.innerHeight;
-  canvas.width=window.innerWidth;
-});
 </script>
 
 </body>
