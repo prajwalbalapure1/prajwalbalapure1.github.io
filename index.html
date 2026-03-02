@@ -5,19 +5,6 @@
 <title>DevOps Galaxy</title>
 <style>
 body { margin:0; overflow:hidden; background:black; font-family:Arial; }
-#panel {
-  position:fixed;
-  right:40px;
-  top:50%;
-  transform:translateY(-50%);
-  width:350px;
-  padding:20px;
-  background:rgba(0,0,0,0.85);
-  border:1px solid #00ffff;
-  border-radius:12px;
-  color:white;
-  display:none;
-}
 .title {
   position:fixed;
   top:20px;
@@ -27,6 +14,20 @@ body { margin:0; overflow:hidden; background:black; font-family:Arial; }
   font-size:22px;
   letter-spacing:3px;
 }
+#panel {
+  position:fixed;
+  right:40px;
+  top:50%;
+  transform:translateY(-50%);
+  width:340px;
+  padding:20px;
+  background:rgba(0,0,0,0.9);
+  border:1px solid #00ffff;
+  border-radius:12px;
+  color:white;
+  display:none;
+}
+#panel h2 { margin-top:0; color:#00ffff; }
 </style>
 </head>
 <body>
@@ -35,136 +36,142 @@ body { margin:0; overflow:hidden; background:black; font-family:Arial; }
 <div id="panel"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://threejs.org/examples/js/loaders/FontLoader.js"></script>
+<script src="https://threejs.org/examples/js/geometries/TextGeometry.js"></script>
 
 <script>
+
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 2000);
-camera.position.set(0,0,30);
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 4000);
+camera.position.set(0,0,80);
 
 const renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
 /* Lighting */
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-const light = new THREE.PointLight(0xffffff, 1.5);
+scene.add(new THREE.AmbientLight(0xffffff,0.6));
+const light = new THREE.PointLight(0xffffff,1.5);
 light.position.set(50,50,50);
 scene.add(light);
 
-/* Proper Starfield */
-const starTexture = new THREE.TextureLoader().load(
-"https://threejs.org/examples/textures/sprites/disc.png"
-);
-
+/* Starfield */
 const starGeo = new THREE.BufferGeometry();
 const starVertices = [];
-
-for (let i=0;i<15000;i++){
+for(let i=0;i<15000;i++){
   starVertices.push(
-    THREE.MathUtils.randFloatSpread(2000),
-    THREE.MathUtils.randFloatSpread(2000),
-    THREE.MathUtils.randFloatSpread(2000)
+    THREE.MathUtils.randFloatSpread(3000),
+    THREE.MathUtils.randFloatSpread(3000),
+    THREE.MathUtils.randFloatSpread(3000)
   );
 }
-
 starGeo.setAttribute("position",
   new THREE.Float32BufferAttribute(starVertices,3)
 );
-
 const starMaterial = new THREE.PointsMaterial({
   color:0xffffff,
-  size:2,
-  map:starTexture,
-  transparent:true
+  size:1.5
 });
-
-const stars = new THREE.Points(starGeo, starMaterial);
+const stars = new THREE.Points(starGeo,starMaterial);
 scene.add(stars);
 
 /* Earth */
 const earthTexture = new THREE.TextureLoader().load(
 "https://threejs.org/examples/textures/earth_atmos_2048.jpg"
 );
-
 const earth = new THREE.Mesh(
-  new THREE.SphereGeometry(8,64,64),
+  new THREE.SphereGeometry(10,64,64),
   new THREE.MeshStandardMaterial({map:earthTexture})
 );
 scene.add(earth);
 
 /* Skills */
 const skills = [
-{
-  name:"Kubernetes",
-  texture:"https://cdn.worldvectorlogo.com/logos/kubernets.svg.png",
-  info:"Kubernetes automates deployment, scaling, and management of containerized applications."
-},
-{
-  name:"Docker",
-  texture:"https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
-  info:"Docker packages applications into containers for consistent deployment."
-},
-{
-  name:"Linux",
-  texture:"https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png",
-  info:"Linux powers servers, DevOps pipelines, and cloud infrastructure."
-},
-{
-  name:"AWS",
-  texture:"https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
-  info:"AWS provides scalable cloud infrastructure and services."
-}
+ {name:"Kubernetes",info:"Container orchestration platform for automating deployment, scaling, and management."},
+ {name:"Docker",info:"Container platform that packages applications with dependencies."},
+ {name:"Linux",info:"Open-source OS powering servers and cloud infrastructure."},
+ {name:"Python",info:"Powerful scripting and automation language."},
+ {name:"AWS",info:"Cloud platform providing scalable infrastructure services."},
+ {name:"Jenkins",info:"CI/CD automation server."},
+ {name:"Grafana",info:"Monitoring & observability dashboard platform."},
+ {name:"Terraform",info:"Infrastructure as Code tool for provisioning resources."}
 ];
 
-const planets = [];
-const loader = new THREE.TextureLoader();
+const fontLoader = new THREE.FontLoader();
+let textObjects = [];
 
-skills.forEach((skill,i)=>{
-  const texture = loader.load(skill.texture);
-  const planet = new THREE.Mesh(
-    new THREE.SphereGeometry(4,64,64),
-    new THREE.MeshStandardMaterial({map:texture})
-  );
-  planet.position.set(
-    (i-1.5)*25,
-    Math.random()*10-5,
-    -80 - i*60
-  );
-  planet.userData = skill;
-  scene.add(planet);
-  planets.push(planet);
-});
+fontLoader.load(
+ "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+ function(font){
 
-/* Raycaster */
+  skills.forEach((skill,i)=>{
+
+    const textGeo = new THREE.TextGeometry(skill.name,{
+      font:font,
+      size:5,
+      height:1,
+      curveSegments:8
+    });
+
+    const textMat = new THREE.MeshStandardMaterial({
+      color:0x00ffff,
+      emissive:0x0088ff,
+      emissiveIntensity:0.6
+    });
+
+    const textMesh = new THREE.Mesh(textGeo,textMat);
+
+    // Clean spacing in 3D tunnel
+    textMesh.position.set(
+      Math.sin(i)*20,
+      Math.cos(i*1.2)*15,
+      -150 - i*120
+    );
+
+    textMesh.userData = skill;
+
+    scene.add(textMesh);
+    textObjects.push(textMesh);
+  });
+ }
+);
+
+/* Click detection */
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-window.addEventListener("click",(e)=>{
-  mouse.x = (e.clientX / innerWidth)*2 -1;
-  mouse.y = -(e.clientY / innerHeight)*2 +1;
+addEventListener("click",(event)=>{
+  mouse.x = (event.clientX/innerWidth)*2-1;
+  mouse.y = -(event.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse,camera);
 
-  const hit = raycaster.intersectObjects(planets);
-  if(hit.length>0){
-    const data = hit[0].object.userData;
+  const hits = raycaster.intersectObjects(textObjects);
+
+  if(hits.length>0){
+    const data = hits[0].object.userData;
     const panel = document.getElementById("panel");
     panel.innerHTML = "<h2>"+data.name+"</h2><p>"+data.info+"</p>";
     panel.style.display="block";
   }
 });
 
-/* Travel Animation */
-let speed = 0.6;
+/* Travel animation */
+let speed = 0.7;
+let takeoff = true;
+
 function animate(){
   requestAnimationFrame(animate);
 
-  earth.rotation.y += 0.002;
+  earth.rotation.y += 0.003;
 
-  camera.position.z -= speed;
-
-  planets.forEach(p=>{
-    p.rotation.y += 0.01;
-  });
+  if(takeoff){
+    camera.position.z -= 0.4;
+    if(camera.position.z < 40){
+      takeoff = false;
+    }
+  } else {
+    camera.position.z -= speed;
+  }
 
   renderer.render(scene,camera);
 }
@@ -176,6 +183,7 @@ addEventListener("resize",()=>{
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight);
 });
+
 </script>
 </body>
 </html>
