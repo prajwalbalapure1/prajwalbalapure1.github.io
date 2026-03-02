@@ -1,174 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>DevOps 3D Universe</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps Galaxy</title>
 <style>
-body { margin:0; overflow:hidden; font-family:Arial; background:black; }
-
-#infoPanel {
-    position: fixed;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 320px;
-    padding: 20px;
-    background: rgba(0,0,0,0.85);
-    border: 1px solid white;
-    border-radius: 10px;
-    color: white;
-    display: none;
+body { margin:0; overflow:hidden; background:black; font-family:Arial; }
+#panel {
+  position:fixed;
+  right:40px;
+  top:50%;
+  transform:translateY(-50%);
+  width:350px;
+  padding:20px;
+  background:rgba(0,0,0,0.85);
+  border:1px solid #00ffff;
+  border-radius:12px;
+  color:white;
+  display:none;
 }
-
-#infoPanel h2 { margin-top:0; }
-
 .title {
-    position: fixed;
-    top:20px;
-    width:100%;
-    text-align:center;
-    color:white;
-    letter-spacing:3px;
+  position:fixed;
+  top:20px;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:22px;
+  letter-spacing:3px;
 }
 </style>
 </head>
 <body>
 
 <div class="title">🚀 DevOps Space Journey</div>
-<div id="infoPanel"></div>
+<div id="panel"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000);
-
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 20);
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 2000);
+camera.position.set(0,0,30);
 
 const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
 /* Lighting */
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 const light = new THREE.PointLight(0xffffff, 1.5);
-light.position.set(10, 10, 10);
+light.position.set(50,50,50);
 scene.add(light);
 
-const ambient = new THREE.AmbientLight(0xffffff, 0.3);
-scene.add(ambient);
+/* Proper Starfield */
+const starTexture = new THREE.TextureLoader().load(
+"https://threejs.org/examples/textures/sprites/disc.png"
+);
 
-/* Starfield */
-function createStars() {
-    const geometry = new THREE.BufferGeometry();
-    const vertices = [];
-    for (let i = 0; i < 10000; i++) {
-        vertices.push(
-            THREE.MathUtils.randFloatSpread(200),
-            THREE.MathUtils.randFloatSpread(200),
-            THREE.MathUtils.randFloatSpread(200)
-        );
-    }
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    const material = new THREE.PointsMaterial({color:0xffffff});
-    const stars = new THREE.Points(geometry, material);
-    scene.add(stars);
+const starGeo = new THREE.BufferGeometry();
+const starVertices = [];
+
+for (let i=0;i<15000;i++){
+  starVertices.push(
+    THREE.MathUtils.randFloatSpread(2000),
+    THREE.MathUtils.randFloatSpread(2000),
+    THREE.MathUtils.randFloatSpread(2000)
+  );
 }
-createStars();
+
+starGeo.setAttribute("position",
+  new THREE.Float32BufferAttribute(starVertices,3)
+);
+
+const starMaterial = new THREE.PointsMaterial({
+  color:0xffffff,
+  size:2,
+  map:starTexture,
+  transparent:true
+});
+
+const stars = new THREE.Points(starGeo, starMaterial);
+scene.add(stars);
 
 /* Earth */
 const earthTexture = new THREE.TextureLoader().load(
 "https://threejs.org/examples/textures/earth_atmos_2048.jpg"
 );
+
 const earth = new THREE.Mesh(
-    new THREE.SphereGeometry(5, 64, 64),
-    new THREE.MeshStandardMaterial({map: earthTexture})
+  new THREE.SphereGeometry(8,64,64),
+  new THREE.MeshStandardMaterial({map:earthTexture})
 );
 scene.add(earth);
 
-/* Skills Data */
+/* Skills */
 const skills = [
 {
-    name:"Kubernetes",
-    texture:"https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg",
-    info:"Kubernetes is a container orchestration system used to automate deployment, scaling, and management of containerized applications."
+  name:"Kubernetes",
+  texture:"https://cdn.worldvectorlogo.com/logos/kubernets.svg.png",
+  info:"Kubernetes automates deployment, scaling, and management of containerized applications."
 },
 {
-    name:"Docker",
-    texture:"https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
-    info:"Docker is a platform that enables developers to build, ship, and run applications in containers."
+  name:"Docker",
+  texture:"https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
+  info:"Docker packages applications into containers for consistent deployment."
 },
 {
-    name:"Linux",
-    texture:"https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png",
-    info:"Linux is an open-source operating system widely used for servers, DevOps, and cloud environments."
+  name:"Linux",
+  texture:"https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png",
+  info:"Linux powers servers, DevOps pipelines, and cloud infrastructure."
 },
 {
-    name:"AWS",
-    texture:"https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
-    info:"AWS is Amazon’s cloud computing platform offering scalable infrastructure and services."
+  name:"AWS",
+  texture:"https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+  info:"AWS provides scalable cloud infrastructure and services."
 }
 ];
 
 const planets = [];
+const loader = new THREE.TextureLoader();
+
+skills.forEach((skill,i)=>{
+  const texture = loader.load(skill.texture);
+  const planet = new THREE.Mesh(
+    new THREE.SphereGeometry(4,64,64),
+    new THREE.MeshStandardMaterial({map:texture})
+  );
+  planet.position.set(
+    (i-1.5)*25,
+    Math.random()*10-5,
+    -80 - i*60
+  );
+  planet.userData = skill;
+  scene.add(planet);
+  planets.push(planet);
+});
+
+/* Raycaster */
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-/* Create Skill Planets */
-skills.forEach((skill, i) => {
-    const texture = new THREE.TextureLoader().load(skill.texture);
-    const planet = new THREE.Mesh(
-        new THREE.SphereGeometry(2.5, 64, 64),
-        new THREE.MeshStandardMaterial({map:texture})
-    );
+window.addEventListener("click",(e)=>{
+  mouse.x = (e.clientX / innerWidth)*2 -1;
+  mouse.y = -(e.clientY / innerHeight)*2 +1;
+  raycaster.setFromCamera(mouse,camera);
 
-    planet.position.set((i-1.5)*12, THREE.MathUtils.randFloatSpread(8), -20 - i*10);
-    planet.userData = skill;
-    scene.add(planet);
-    planets.push(planet);
+  const hit = raycaster.intersectObjects(planets);
+  if(hit.length>0){
+    const data = hit[0].object.userData;
+    const panel = document.getElementById("panel");
+    panel.innerHTML = "<h2>"+data.name+"</h2><p>"+data.info+"</p>";
+    panel.style.display="block";
+  }
 });
 
-/* Click Interaction */
-window.addEventListener('click', (event)=>{
-    mouse.x = (event.clientX / window.innerWidth)*2 -1;
-    mouse.y = -(event.clientY / window.innerHeight)*2 +1;
-    raycaster.setFromCamera(mouse, camera);
-
-    const intersects = raycaster.intersectObjects(planets);
-    if(intersects.length > 0){
-        const data = intersects[0].object.userData;
-        const panel = document.getElementById("infoPanel");
-        panel.innerHTML = "<h2>"+data.name+"</h2><p>"+data.info+"</p>";
-        panel.style.display = "block";
-    }
-});
-
-/* Takeoff Animation */
-let takeoff = true;
+/* Travel Animation */
+let speed = 0.6;
 function animate(){
-    requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 
-    earth.rotation.y += 0.002;
+  earth.rotation.y += 0.002;
 
-    if(takeoff){
-        camera.position.z -= 0.1;
-        if(camera.position.z < 5){
-            takeoff = false;
-        }
-    }
+  camera.position.z -= speed;
 
-    planets.forEach(p => p.rotation.y += 0.01);
+  planets.forEach(p=>{
+    p.rotation.y += 0.01;
+  });
 
-    renderer.render(scene, camera);
+  renderer.render(scene,camera);
 }
 animate();
 
 /* Resize */
-window.addEventListener('resize', ()=>{
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+addEventListener("resize",()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
 });
 </script>
 </body>
