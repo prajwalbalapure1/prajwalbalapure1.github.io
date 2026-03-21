@@ -140,6 +140,45 @@ header h2{
   box-shadow:0 0 15px var(--neon);
   transform:scale(1.05);
 }
+
+/* NEW PROJECT SECTION */
+.projects{
+  padding:0 8% 120px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+}
+.project-card{
+  background:var(--card);
+  border:1px solid rgba(0,255,255,0.2);
+  border-radius:12px;
+  padding:20px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.project-card:hover{
+  transform:translateY(-5px) scale(1.03);
+  box-shadow:0 0 20px var(--neon);
+}
+.project-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Orbitron',sans-serif;
+  color:var(--neon);
+  margin-bottom:10px;
+}
+.project-body{
+  font-size:14px;
+  color:#94a3b8;
+  margin-bottom:15px;
+}
+.project-status{
+  font-size:12px;
+  color:#00ff88;
+  font-family:monospace;
+}
+
 footer{
   text-align:center;
   padding:40px;
@@ -159,9 +198,7 @@ footer{
 <section class="hero">
   <h1>Hello, I'm <span>Prajwal Balapure</span></h1>
   <p>
-    Result-oriented and dedicated DevOps professional with 4 years of industrial experience. Looking for a challenging
-    role to deepen expertise in DevOps and cloud infrastructure while contributing to high-performance, scalable
-    systems within a dynamic team
+    Result-oriented and dedicated DevOps professional with 4 years of industrial experience.
   </p>
 </section>
 
@@ -192,128 +229,36 @@ footer{
   <div class="skill-card"><i class="fa-brands fa-github"></i><div>Git & GitHub</div></div>
   <div class="skill-card"><i class="fa-solid fa-gears"></i><div>Jenkins</div></div>
   <div class="skill-card"><i class="fa-brands fa-python"></i><div>Python</div></div>
-  <div class="skill-card"><i class="fa-solid fa-chart-line"></i><div>Grafana</div></div>
-  <div class="skill-card"><i class="fa-solid fa-wave-square"></i><div>Prometheus</div></div>
-  <div class="skill-card"><i class="fa-brands fa-linux"></i><div>Linux</div></div>
-  <div class="skill-card"><i class="fa-solid fa-layer-group"></i><div>Terraform</div></div>
+</section>
+
+<!-- PROJECTS -->
+<h2 class="section-title">Deployed Projects 🚀</h2>
+<section class="projects">
+  <div class="project-card" onclick="openProject('https://github.com/yourusername/project1')">
+    <div class="project-header"><i class="fa-solid fa-server"></i> CI/CD Pipeline</div>
+    <div class="project-body">Jenkins + Docker + Kubernetes</div>
+    <div class="project-status">● Running</div>
+  </div>
+
+  <div class="project-card" onclick="openProject('https://github.com/yourusername/project2')">
+    <div class="project-header"><i class="fa-solid fa-cloud"></i> AWS Infra</div>
+    <div class="project-body">Terraform-based infra</div>
+    <div class="project-status">● Healthy</div>
+  </div>
+
+  <div class="project-card" onclick="openProject('https://github.com/yourusername/project3')">
+    <div class="project-header"><i class="fa-solid fa-network-wired"></i> Monitoring</div>
+    <div class="project-body">Prometheus + Grafana</div>
+    <div class="project-status">● Live</div>
+  </div>
 </section>
 
 <footer>© 2026 Prajwal Balapure</footer>
 
 <script>
-function random(min,max){return Math.floor(Math.random()*(max-min+1)+min);}
-function updateMetrics(){
-  document.getElementById("uptime").innerText=random(98,100)+"%";
-  document.getElementById("pods").innerText=random(120,160);
-  document.getElementById("cpu").innerText=random(20,75)+"%";
-  document.getElementById("creativity").innerText=random(100,120)+"%";
-  document.getElementById("deployment").innerText=random(99,100)+"%";
+function openProject(url){
+  window.open(url,"_blank");
 }
-setInterval(updateMetrics,2000);updateMetrics();
-
-/* Terminal */
-const terminal=document.getElementById("terminal");
-let input=document.getElementById("commandInput");
-let helpActivated=false;
-
-function addLine(text){
-  const line=document.createElement("div");
-  line.innerHTML=text;
-  terminal.insertBefore(line,input);
-  terminal.scrollTop=terminal.scrollHeight;
-}
-
-function handleCommand(e){
-  if(e.key==="Enter"){
-    const cmd=input.value.toLowerCase().trim();
-    addLine("> "+cmd);
-
-    if(cmd==="help"){
-      helpActivated=true;
-      addLine("Available options:");
-      addLine("- i need devops engineer");
-      addLine("- need help with kubernetes");
-      addLine("- looking for cloud engineer");
-      addLine("- clear");
-    }
-    else if(!helpActivated){
-      addLine("Please type 'help' first 🙂");
-    }
-    else if(cmd.includes("devops")){
-      addLine("Suggestion: Prajwal 🙂");
-    }
-    else if(cmd.includes("kubernetes")){
-      addLine("Suggestion: Prajwal 🚀");
-    }
-    else if(cmd.includes("cloud")||cmd.includes("aws")){
-      addLine("Suggestion: Prajwal ☁️");
-    }
-    else if(cmd.includes("automation")||cmd.includes("ci")){
-      addLine("Suggestion: Prajwal ⚙️");
-    }
-    else if(cmd==="clear"){
-      terminal.innerHTML="<div>> Type 'help' to explore</div><input type='text' id='commandInput' placeholder='Enter command...' />";
-      input=document.getElementById("commandInput");
-      input.addEventListener("keydown",handleCommand);
-      helpActivated=false;
-      return;
-    }
-    else{
-      addLine("Try one of the available options 🙂");
-    }
-    input.value="";
-  }
-}
-input.addEventListener("keydown",handleCommand);
-
-/* Creative Logs */
-const logs=[
-"🚀 Initializing CI/CD pipeline...",
-"👀 Someone just opened this portfolio...",
-"💓 Heart rate slightly elevated...",
-"😅 Hoping they scroll to skills...",
-"🧠 Brain loading DevOps knowledge...",
-"⌨️ Recruiter typing something...",
-"🛡 Infrastructure ready for questions.",
-"🎉 No crashes detected while being evaluated.",
-"👨‍💻 Prajwal reviewing logs calmly.",
-"✨ Impression delivered successfully."
-];
-const pipelineLogs=document.getElementById("pipelineLogs");
-function addPipelineLog(){
-  const log=document.createElement("div");
-  log.innerText=logs[Math.floor(Math.random()*logs.length)];
-  pipelineLogs.appendChild(log);
-  pipelineLogs.scrollTop=pipelineLogs.scrollHeight;
-  if(pipelineLogs.children.length>30){
-    pipelineLogs.removeChild(pipelineLogs.firstChild);
-  }
-}
-setInterval(addPipelineLog,1500);
-
-/* Softer Matrix */
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.height=window.innerHeight;
-canvas.width=window.innerWidth;
-const letters="01";
-const fontSize=14;
-const columns=canvas.width/fontSize;
-const drops=[];
-for(let x=0;x<columns;x++)drops[x]=1;
-function draw(){
-  ctx.fillStyle="rgba(5,8,22,0.15)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="rgba(0,245,255,0.25)";
-  ctx.font=fontSize+"px monospace";
-  for(let i=0;i<drops.length;i++){
-    const text=letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height && Math.random()>0.975)drops[i]=0;
-    drops[i]++;
-  }
-}
-setInterval(draw,33);
 </script>
 
 </body>
